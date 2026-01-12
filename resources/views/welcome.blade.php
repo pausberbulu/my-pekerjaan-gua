@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en">
+<html lang="id">
   <head>
     <title>{{ env('APP_NAME') }}</title>
     <!-- [Meta] -->
@@ -51,7 +51,7 @@
         <div class="collapse navbar-collapse" id="navbarTogglerDemo01">
           <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
             <li class="nav-item">
-              <a class="btn btn-secondary" target="_blank" href=""
+              <a class="btn btn-secondary" href="{{ route('login') }}"
                 >Masuk</a
               >
             </li>
