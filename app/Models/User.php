@@ -59,13 +59,13 @@ class User extends Authenticatable
         return $this->hasMany(Workspace::class, 'workspace_id', 'id');
     }
 
-    public function teams(): BelongsToMany
-    {
-        return $this->belongsToMany(Team::class, 'team_members');
-    }
-
     public function tasks(): HasMany
     {
         return $this->hasMany(Task::class, 'user_id', 'id');
+    }
+
+    public function ownedWorkspaces(): HasMany
+    {
+        return $this->hasMany(Workspace::class, 'owner_id', 'id');
     }
 }

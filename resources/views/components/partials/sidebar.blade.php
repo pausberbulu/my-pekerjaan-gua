@@ -12,8 +12,13 @@
     <div class="navbar-content">
       <ul class="pc-navbar">
         <li class="pc-item">
-          <a href="../dashboard/index.html" class="pc-link">
+          <a href="{{ route('homepage') }}" class="pc-link">
             <span class="pc-micon"><i class="ti ti-home"></i></span><span class="pc-mtext">Beranda</span>
+          </a>
+        </li>
+        <li class="pc-item">
+          <a href="{{ route('workspace') }}" class="pc-link">
+            <span class="pc-micon"><i class="ti ti-package"></i></span><span class="pc-mtext">Workspace</span>
           </a>
         </li>
         <li class="pc-item">
@@ -24,18 +29,16 @@
         <li class="pc-item pc-caption">
             <span class="pc-mtext">Workspace</span>
         </li>
+        @forelse ( $workspaces as $workspace)
         <li class="pc-item">
-          <a href="../elements/bc_typography.html" class="pc-link">
+          <a href="{{ route('workspace.show', ['id' => $workspace->id]) }}" class="pc-link">
             <span class="pc-micon"><i class="ti ti-package"></i></span>
-            <span class="pc-mtext">Workspace 1</span>
+            <span class="pc-mtext">{{ $workspace->name }}</span>
           </a>
         </li>
-         <li class="pc-item">
-          <a href="../elements/bc_typography.html" class="pc-link">
-            <span class="pc-micon"><i class="ti ti-package"></i></span>
-            <span class="pc-mtext">Workspace 2</span>
-          </a>
-        </li>
+        @empty
+        <p></p>
+        @endforelse
       </ul>
     </div>
   </div>

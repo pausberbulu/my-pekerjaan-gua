@@ -13,11 +13,9 @@ return new class extends Migration
     {
         Schema::create('tasks', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('team_id');
-            $table->foreign('team_id')->references('id')->on('teams');
-            $table->unsignedBigInteger('user_id');
+            $table->unsignedBigInteger('user_id')->nullable();
             $table->foreign('user_id')->references('id')->on('users');
-            $table->string('title');
+            $table->string('name');
             $table->date('due_date')->nullable();
             $table->enum('status', ['todo', 'in_progress', 'completed'])->default('todo');
             $table->timestamp('completed_at')->nullable();

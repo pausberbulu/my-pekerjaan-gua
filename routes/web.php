@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\WorkspaceController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -18,6 +19,9 @@ Route::middleware('auth')->group(function () {
     Route::get('/keluar', [AuthController::class, 'logout'])->name('logout');
 
     Route::get('/beranda', [DashboardController::class, 'homepage'])->name('homepage');
+    Route::get('/workspace', [WorkspaceController::class, 'index'])->name('workspace');
+    Route::post('/workspace', [WorkspaceController::class, 'store'])->name('workspace.store');
+    Route::get('/workspace/show/{id}', [WorkspaceController::class, 'show'])->name('workspace.show');
 });
 
 

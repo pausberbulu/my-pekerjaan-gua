@@ -1,4 +1,121 @@
 @extends('components.layout')
 @section('content')
-    <p>Halo {{ Auth::user()->name }} !</p>
+    <div class="col-xl-4 col-md-6">
+        <div class="card bg-secondary-dark dashnum-card text-white overflow-hidden">
+            <span class="round small"></span>
+            <span class="round big"></span>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col">
+                    <div class="avtar avtar-lg">
+                        <i class="text-white ti ti-package"></i>
+                    </div>
+                    </div>
+                </div>
+                <div class="row align-items-center">
+                    <div class="col">
+                        <span class="text-white d-block f-34 f-w-500 my-2">
+                            {{ $workspace }}
+                            <i class="ti ti-arrow-up-right-circle opacity-50"></i>
+                        </span>
+                        <p class="mb-0 opacity-50">Jumlah Workspace</p>
+                    </div>
+                    <div class="col p-0">
+                        <div class="d-grid">
+                            <button type="button" class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#makeWorkspace">Buat Workspace</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-xl-4 col-md-6">
+        <div class="card bg-primary-dark dashnum-card text-white overflow-hidden">
+            <span class="round small"></span>
+            <span class="round big"></span>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col">
+                    <div class="avtar avtar-lg">
+                        <i class="text-white ti ti-list"></i>
+                    </div>
+                    </div>
+                </div>
+                <span class="text-white d-block f-34 f-w-500 my-2">
+                    0
+                    <i class="ti ti-arrow-up-right-circle opacity-50"></i>
+                </span>
+                <p class="mb-0 opacity-50">Jumlah Tugas</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="card p-2">
+        <h2 class="mb-3">Tugasku</h2>
+        <table class="table table-responsive table-hover bg-light">
+            <thead>
+                <tr>
+                <th scope="col">No</th>
+                <th scope="col">Nama</th>
+                <th scope="col">Ditugaskan</th>
+                <th scope="col">Tenggat Waktu</th>
+                <th scope="col">Workspace</th>
+                <th scope="col">Waktu Ditugaskan</th>
+                <th scope="col">Status</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <th scope="row">1</th>
+                    <td>Mark</td>
+                    <td>Otto</td>
+                    <td>@mdo</td>
+                    <td>@mdo</td>
+                    <td>@mdo</td>
+                    <td>@mdo</td>
+                </tr>
+                <tr>
+                    <th scope="row">2</th>
+                    <td>Jacob</td>
+                    <td>Thornton</td>
+                    <td>@fat</td>
+                    <td>@fat</td>
+                    <td>@fat</td>
+                    <td>@fat</td>
+                </tr>
+                <tr>
+                    <th scope="row">3</th>
+                    <td>John</td>
+                    <td>Doe</td>
+                    <td>@social</td>
+                    <td>@social</td>
+                    <td>@social</td>
+                    <td>@social</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <div class="modal fade" id="makeWorkspace" tabindex="-1" aria-labelledby="makeWorkspaceLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <form action="{{ route('workspace.store') }}" method="post">
+                    @csrf
+                    <div class="modal-header">
+                        <h1 class="modal-title fs-5" id="makeWorkspaceLabel">Buat Workspace</h1>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="form-floating mb-3">
+                            <input type="text" class="form-control" id="floatingInput" name="name" placeholder="Nama Workspace" required />
+                            <label for="floatingInput">Nama Workspace</label>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
+                        <button type="submit" class="btn btn-primary">Buat</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
 @endsection

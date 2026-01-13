@@ -2,6 +2,9 @@
 
 namespace App\Providers;
 
+use App\Models\Workspace;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\View;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -19,6 +22,8 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        //
+        View::composer('components.partials.sidebar', function ($view) {
+            $view->with('workspaces', Workspace::where('owner_id', Auth::user()->id)->get());
+        });
     }
 }
