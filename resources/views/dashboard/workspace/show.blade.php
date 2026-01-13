@@ -5,7 +5,7 @@
             <div class="card-header">
                 <div class="d-flex justify-content-between align-items-center">
                     <h3>{{ $workspace->name }}</h3>
-                    <h3 class="text-end"><i class="ti ti-crown"></i> {{ $workspace->owner->name }}</h3>
+                    <h4 class="text-end"><i class="ti ti-crown"></i> {{ $workspace->owner->name }}</h4>
                 </div>
                 <h5><i class="ti ti-qrcode"></i> {{ $workspace->code }}</h5>
             </div>
@@ -79,9 +79,9 @@
                         <td>...</td>
                     </tr>
                     @empty
-                        <tr>
-                            <td>Tidak ada anggota bergabung</td>
-                        </tr>
+                    <tr>
+                        <td colspan="3" class="text-center">Tidak ada anggota yang bergabung</td>
+                    </tr>
                     @endforelse
                 </tbody>
             </table>

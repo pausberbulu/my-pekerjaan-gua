@@ -15,7 +15,7 @@
                 <div class="row align-items-center">
                     <div class="col">
                         <span class="text-white d-block f-34 f-w-500 my-2">
-                            {{ $workspace }}
+                            {{ $sumWorkspace }}
                             <i class="ti ti-arrow-up-right-circle opacity-50"></i>
                         </span>
                         <p class="mb-0 opacity-50">Jumlah Workspace</p>

@@ -30,12 +30,19 @@
             <div class="col-xl-4 col-md-6 col-sm-12 border mt-3">
                 <div class="card">
                     <div class="card-header">
-                        <h3>{{ $workspace->name }}</h3>
+                        <div class="d-flex justify-content-between align-items-center">
+                            <h3>{{ $workspace->name }}</h3>
+                            <h4 class="text-end"><i class="ti ti-crown"></i> {{ $workspace->owner->name }}</h4>
+                        </div>
                         <h5><i class="ti ti-qrcode"></i> {{ $workspace->code }}</h5>
                     </div>
                 <div class="card-body">
                     <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Saepe incidunt minus doloribus eos quisquam autem amet soluta unde labore asperiores?</p>
-                    <i>3 Anggota</i>
+                    @if ($workspace->users->count() == 0)
+                        <i>Tidak ada anggota</i>
+                    @else
+                    <i>{{ $workspace->users->count() }} Anggota</i>
+                    @endif
                     <div class="d-grid mt-3">
                         <a class="btn btn-info" href="{{ route('workspace.show', ['id' => $workspace->id]) }}">Lihat</a>
                     </div>
@@ -52,12 +59,19 @@
             <div class="col-xl-4 col-md-6 col-sm-12 border mt-3">
                 <div class="card">
                     <div class="card-header">
-                        <h3>{{ $workspace->name }}</h3>
+                        <div class="d-flex justify-content-between align-items-center">
+                            <h3>{{ $workspace->name }}</h3>
+                            <h4 class="text-end"><i class="ti ti-crown"></i> {{ $workspace->owner->name }}</h4>
+                        </div>
                         <h5><i class="ti ti-qrcode"></i> {{ $workspace->code }}</h5>
                     </div>
                 <div class="card-body">
                     <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Saepe incidunt minus doloribus eos quisquam autem amet soluta unde labore asperiores?</p>
-                    <i>3 Anggota</i>
+                    @if ($workspace->users->count() == 0)
+                        <i>Tidak ada anggota</i>
+                    @else
+                    <i>{{ $workspace->users->count() }} Anggota</i>
+                    @endif
                     <div class="d-grid mt-3">
                         <a class="btn btn-info" href="{{ route('workspace.show', ['id' => $workspace->id]) }}">Lihat</a>
                     </div>
