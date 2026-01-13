@@ -13,7 +13,8 @@ class WorkspaceController extends Controller
     public function index()
     {
         $workspaces = Workspace::where('owner_id', Auth::user()->id)->get();
-        return view('dashboard.workspace.workspace', compact('workspaces'));
+        $joinedWorkspace = Auth::user()->members()->get();
+        return view('dashboard.workspace.workspace', compact('workspaces', 'joinedWorkspace'));
     }
 
     public function show($id)
@@ -32,6 +33,22 @@ class WorkspaceController extends Controller
         } catch (\Throwable $th) {
             Log::error($th);
             return redirect()->route('workspace')->with('error', 'Workspace gagal dibuat');
+        }
+    }
+
+    public function join(Request $request)
+    {
+        try {
+            $code = Workspace::where('code', $request->code)->first();
+            if($code)
+            {
+                $code->users()->attach(Auth::user()->id);
+                return redirect()->route('workspace')->with('success', 'Berhasil bergabung ke workspace');
+            }
+            return redirect()->route('workspace')->with('error', 'Workspace tidak ditemukan');
+        } catch (\Throwable $th) {
+           Log::error($th);
+           return redirect()->route('workspace')->with('error', 'Gagal bergabung ke workspace');
         }
     }
 }

@@ -28,8 +28,8 @@ class AuthController extends Controller
     {
         try {
             $data = $request->validated();
+            $data['username'] = str_replace(' ', '', strtolower($data['username']));
             User::create($data);
-
             return redirect()->route('login')->with('success', 'Pendaftaran berhasil, silahkan login');
         } catch (\Throwable $th) {
             Log::error($th);

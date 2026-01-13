@@ -3,7 +3,10 @@
     <div class="col-sm-12">
         <div class="card">
             <div class="card-header">
-                <h3>{{ $workspace->name }}</h3>
+                <div class="d-flex justify-content-between align-items-center">
+                    <h3>{{ $workspace->name }}</h3>
+                    <h3 class="text-end"><i class="ti ti-crown"></i> {{ $workspace->owner->name }}</h3>
+                </div>
                 <h5><i class="ti ti-qrcode"></i> {{ $workspace->code }}</h5>
             </div>
             <div class="card-body">
@@ -63,31 +66,23 @@
             <table class="table table-responsive table-hover">
                 <thead>
                     <tr>
-                    <th scope="col">No</th>
                     <th scope="col">Nama</th>
                     <th scope="col">Status</th>
                     <th scope="col">Aksi</th>
                     </tr>
                 </thead>
                 <tbody>
+                    @forelse ($workspace->users as $member)
                     <tr>
-                        <th scope="row">1</th>
-                        <td>Mark</td>
-                        <td>Otto</td>
-                        <td>Otto</td>
+                        <td>{{ $member->name }}</td>
+                        <td>Aktif</td>
+                        <td>...</td>
                     </tr>
-                    <tr>
-                        <th scope="row">2</th>
-                        <td>Jacob</td>
-                        <td>Thornton</td>
-                        <td>Thornton</td>
-                    </tr>
-                    <tr>
-                        <th scope="row">3</th>
-                        <td>John</td>
-                        <td>Doe</td>
-                        <td>Doe</td>
-                    </tr>
+                    @empty
+                        <tr>
+                            <td>Tidak ada anggota bergabung</td>
+                        </tr>
+                    @endforelse
                 </tbody>
             </table>
         </div>

@@ -21,8 +21,11 @@
                         <p class="mb-0 opacity-50">Jumlah Workspace</p>
                     </div>
                     <div class="col p-0">
-                        <div class="d-grid">
+                        <div class="d-grid mb-2">
                             <button type="button" class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#makeWorkspace">Buat Workspace</button>
+                        </div>
+                        <div class="d-grid">
+                            <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#joinWorkspace">Gabung Workspace</button>
                         </div>
                     </div>
                 </div>
@@ -113,6 +116,29 @@
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
                         <button type="submit" class="btn btn-primary">Buat</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" id="joinWorkspace" tabindex="-1" aria-labelledby="joinWorkspaceLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <form action="{{ route('workspace.join') }}" method="post">
+                    @csrf
+                    <div class="modal-header">
+                        <h1 class="modal-title fs-5" id="joinWorkspaceLabel">Gabung Workspace</h1>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="form-floating mb-3">
+                            <input type="text" class="form-control" id="floatingInput" name="code" placeholder="Kode Workspace" required />
+                            <label for="floatingInput">Kode Workspace</label>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
+                        <button type="submit" class="btn btn-primary">Gabung</button>
                     </div>
                 </form>
             </div>
