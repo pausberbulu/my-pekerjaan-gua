@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\TaskController;
 use App\Http\Controllers\WorkspaceController;
 
 Route::get('/', function () {
@@ -23,6 +24,9 @@ Route::middleware('auth')->group(function () {
     Route::post('/workspace', [WorkspaceController::class, 'store'])->name('workspace.store');
     Route::get('/workspace/show/{id}', [WorkspaceController::class, 'show'])->name('workspace.show');
     Route::post('/gabung-workspace', [WorkspaceController::class, 'join'])->name('workspace.join');
+
+    Route::post('/buat-tugas', [TaskController::class, 'store'])->name('task.store');
+    Route::post('/ubah-status', [TaskController::class, 'updateStatus'])->name('task.update-status');
 });
 
 

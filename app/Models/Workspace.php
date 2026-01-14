@@ -2,7 +2,7 @@
 
 namespace App\Models;
 
-use App\Models\Team;
+use App\Models\Task;
 use App\Models\User;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Auth;
@@ -43,5 +43,10 @@ class Workspace extends Model
     public function users(): BelongsToMany
     {
         return $this->belongsToMany(User::class, 'workspace_members', 'workspace_id', 'user_id');
+    }
+
+    public function tasks(): HasMany
+    {
+        return $this->hasMany(Task::class, 'workspace_id', 'id');
     }
 }
