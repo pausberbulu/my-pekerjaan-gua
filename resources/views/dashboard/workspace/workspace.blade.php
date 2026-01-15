@@ -12,6 +12,7 @@
         <span class="mt-1">{{ session('error') }}</span>
     </div>
     @endif
+    @if(Auth::user()->role != 'superadmin')
     <div class="row g-2 mb-3">
         <div class="col-6 d-grid">
             <button type="button" class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#makeWorkspace">
@@ -128,4 +129,47 @@
             </div>
         </div>
     </div>
+    @endif
+    @if (Auth::user()->role == 'superadmin')
+    <div class="card p-2">
+        <h2 class="mb-3">List Workspace</h2>
+        <table class="table table-responsive table-hover bg-light">
+            <thead>
+                <tr>
+                <th scope="col">No</th>
+                <th scope="col">Workspace</th>
+                <th scope="col">Kode</th>
+                <th scope="col">Pemilik</th>
+                <th scope="col">Anggota</th>
+                <th scope="col">Aksi</th>
+                </tr>
+            </thead>
+            <tbody>
+                @php
+                    $no = 1;
+                @endphp
+                @forelse ($getWorkspaces as $workspace)
+                <tr>
+                    <th scope="row">{{ $no++ }}</th>
+                    <td>{{ $workspace->name }}</td>
+                    <td>{{ $workspace->code }}</td>
+                    <td>{{ $workspace->owner->name }}</td>
+                    <td>
+                        @if ($workspace->users->count() == 0)
+                            <i>Tidak ada anggota</i>
+                        @else
+                        <i>{{ $workspace->users->count() }} Anggota</i>
+                        @endif
+                    </td>
+                    <td>...</td>
+                </tr>
+                @empty
+                    <tr>
+                        <td colspan="5">Tidak ada workspace yang dibuat</td>
+                    </tr>
+                @endforelse
+            </tbody>
+        </table>
+    </div>
+    @endif
 @endsection

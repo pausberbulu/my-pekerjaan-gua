@@ -44,6 +44,9 @@
 <!-- [Mobile Media Block end] -->
 <div class="ms-auto">
   <ul class="list-unstyled">
+    <li class="pc-h-item">
+      <b>{{ Auth::user()->name }}</b>
+    </li>
     <li class="dropdown pc-h-item header-user-profile">
       <a
         class="pc-head-link head-link-primary dropdown-toggle arrow-none me-0"
@@ -61,10 +64,10 @@
       <div class="dropdown-menu dropdown-user-profile dropdown-menu-end pc-h-dropdown">
         <div class="dropdown-header">
           <h4>
-            Good Morning,
-            <span class="small text-muted">John Doe</span>
+            Hello,
+            <span class="small text-muted">{{ Auth::user()->name }}</span>
           </h4>
-          <p class="text-muted">Project Admin</p>
+          <p class="text-muted">{{ Auth::user()->username }}</p>
           <hr />
           <div class="profile-notification-scroll position-relative" style="max-height: calc(100vh - 280px)">
             <a href="../application/account-profile-v1.html" class="dropdown-item">

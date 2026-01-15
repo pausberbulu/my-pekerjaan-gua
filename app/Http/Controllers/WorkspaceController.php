@@ -12,9 +12,12 @@ class WorkspaceController extends Controller
 {
     public function index()
     {
+        $getWorkspaces = Workspace::select('id', 'name', 'code', 'owner_id')->get();
         $workspaces = Workspace::where('owner_id', Auth::user()->id)->get();
         $joinedWorkspace = Auth::user()->members()->get();
-        return view('dashboard.workspace.workspace', compact('workspaces', 'joinedWorkspace'));
+
+        $tasks = Auth::user()->tasks()->get();
+        return view('dashboard.workspace.workspace', compact('getWorkspaces','workspaces', 'joinedWorkspace'));
     }
 
     public function show($id)

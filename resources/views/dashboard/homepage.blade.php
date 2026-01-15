@@ -15,11 +15,16 @@
                 <div class="row align-items-center">
                     <div class="col">
                         <span class="text-white d-block f-34 f-w-500 my-2">
+                            @if (Auth::user()->role == 'superadmin')
+                            {{ $getWorkspace }}
+                            @else
                             {{ $sumWorkspace }}
+                            @endif
                             <i class="ti ti-arrow-up-right-circle opacity-50"></i>
                         </span>
                         <p class="mb-0 opacity-50">Jumlah Workspace</p>
                     </div>
+                    @if(Auth::user()->role != 'superadmin')
                     <div class="col p-0">
                         <div class="d-grid mb-2">
                             <button type="button" class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#makeWorkspace">Buat Workspace</button>
@@ -28,6 +33,7 @@
                             <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#joinWorkspace">Gabung Workspace</button>
                         </div>
                     </div>
+                    @endif
                 </div>
             </div>
         </div>
@@ -53,6 +59,7 @@
             </div>
         </div>
     </div>
+    @if (Auth::user()->role != 'superadmin')
     <div class="card p-2">
         <h2 class="mb-3">Tugasku</h2>
         <table class="table table-responsive table-hover bg-light">
@@ -68,36 +75,34 @@
                 </tr>
             </thead>
             <tbody>
+                @forelse ($tasks as $task)
                 <tr>
                     <th scope="row">1</th>
-                    <td>Mark</td>
-                    <td>Otto</td>
-                    <td>@mdo</td>
-                    <td>@mdo</td>
-                    <td>@mdo</td>
-                    <td>@mdo</td>
+                    <td>{{ $task->name }}</td>
+                    <td>{{ $task->user->name }}</td>
+                    <td>{{ $task->due_date }}</td>
+                    <td>{{ $task->workspace->name }}</td>
+                    @php
+                        $due_date = \Carbon\Carbon::parse($task->due_date)->translatedFormat('d F Y');
+                    @endphp
+                    <td>{{ $due_date }}</td>
+                    <td>
+                        @if ($task->status == 'todo')
+                            <span class="badge bg-secondary">Ditugaskan</span>
+                        @elseif ($task->status == 'in_progress')
+                            <span class="badge bg-primary">Dikerjakan</span>
+                        @elseif ($task->status == 'completed')
+                            <span class="badge bg-success">Selesai</span>
+                        @endif
+                    </td>
                 </tr>
-                <tr>
-                    <th scope="row">2</th>
-                    <td>Jacob</td>
-                    <td>Thornton</td>
-                    <td>@fat</td>
-                    <td>@fat</td>
-                    <td>@fat</td>
-                    <td>@fat</td>
-                </tr>
-                <tr>
-                    <th scope="row">3</th>
-                    <td>John</td>
-                    <td>Doe</td>
-                    <td>@social</td>
-                    <td>@social</td>
-                    <td>@social</td>
-                    <td>@social</td>
-                </tr>
+                @empty
+                    
+                @endforelse
             </tbody>
         </table>
     </div>
+    @endif
     <div class="modal fade" id="makeWorkspace" tabindex="-1" aria-labelledby="makeWorkspaceLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">

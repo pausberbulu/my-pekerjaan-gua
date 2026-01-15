@@ -30,7 +30,9 @@
             @endif
             <div class="d-flex justify-content-between align-items-center">
                 <h3>Tugas</h3>
+                @if (Auth::user()->id == $workspace->owner_id)
                 <button type="button" class="btn btn-info" data-bs-toggle="modal" data-bs-target="#makeTask" href="">Buat Tugas</button>
+                @endif
             </div>
             <table class="table table-responsive table-hover">
                 <thead>
@@ -60,10 +62,10 @@
                         <td>
                             @if($task->status == 'todo')
                             <div class="position-relative">
-                                <button class="btn btn-secondary" type="button" data-bs-toggle="collapse" data-bs-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample" style="--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .75rem;">
+                                <button @if (Auth::user()->id != $task->user_id && Auth::user()->id != $task->workspace->owner_id) disabled @endif class="btn btn-secondary" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTask-{{ $task->id }}" aria-expanded="false" aria-controls="collapseTask-{{ $task->id }}" style="--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .75rem;">
                                     Ditugaskan
                                 </button>
-                                <div class="collapse position-absolute" id="collapseExample">
+                                <div class="collapse position-absolute" id="collapseTask-{{ $task->id }}">
                                     <div class="card card-body">
                                         <div class="d-flex gap-3">
                                             <div>
@@ -96,10 +98,10 @@
                             </div>
                             @elseif($task->status == 'in_progress')
                             <div class="position-relative">
-                                <button class="btn btn-warning" type="button" data-bs-toggle="collapse" data-bs-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample" style="--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .75rem;">
+                                <button class="btn btn-warning" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTask-{{ $task->id }}" aria-expanded="false" aria-controls="collapseTask-{{ $task->id }}" style="--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .75rem;">
                                     Proses
                                 </button>
-                                <div class="collapse position-absolute" id="collapseExample">
+                                <div class="collapse position-absolute" id="collapseTask-{{ $task->id }}">
                                     <div class="card card-body">
                                         <div class="d-flex gap-2">
                                             <div>
@@ -132,10 +134,10 @@
                             </div>
                             @else
                             <div class="position-relative">
-                                <button class="btn btn-success" type="button" data-bs-toggle="collapse" data-bs-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample" style="--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .75rem;">
+                                <button class="btn btn-success" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTask-{{ $task->id }}" aria-expanded="false" aria-controls="collapseTask-{{ $task->id }}" style="--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .75rem;">
                                     Selesai
                                 </button>
-                                <div class="collapse position-absolute" id="collapseExample">
+                                <div class="collapse position-absolute" id="collapseTask-{{ $task->id }}">
                                     <div class="card card-body">
                                         <div class="d-flex gap-2">
                                             <div>

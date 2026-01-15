@@ -13,6 +13,10 @@ class DashboardController extends Controller
         $workspace = Workspace::where('owner_id', Auth::user()->id)->count();
         $joinedWorkspace = Auth::user()->members()->count();
         $sumWorkspace = $workspace + $joinedWorkspace;
-        return view('dashboard.homepage', compact('sumWorkspace'));
+
+        $getWorkspace = Workspace::count();
+        $tasks = Auth::user()->tasks()->get();
+
+        return view('dashboard.homepage', compact('sumWorkspace', 'getWorkspace', 'tasks'));
     }
 }
