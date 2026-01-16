@@ -6,9 +6,16 @@ use App\Models\Task;
 use Illuminate\Http\Request;
 use App\Http\Requests\TaskRequest;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Auth;
 
 class TaskController extends Controller
 {
+    public function task()
+    {
+        $tasks = Auth::user()->tasks()->get();
+
+        return view('dashboard.task.task', compact('tasks'));
+    }
     public function store(TaskRequest $request)
     {
         try {

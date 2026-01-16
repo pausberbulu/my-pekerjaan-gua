@@ -41,7 +41,9 @@
                     <th scope="col">Ditugaskan</th>
                     <th scope="col">Status</th>
                     <th scope="col">Tenggat Waktu</th>
+                    @if (Auth::user()->id == $workspace->owner_id)
                     <th scope="col">Aksi</th>
+                    @endif
                     </tr>
                 </thead>
                 <tbody>
@@ -174,7 +176,9 @@
                             $due_date = \Carbon\Carbon::parse($task->due_date)->translatedFormat('d F Y');
                         @endphp
                         <td>{{ $due_date }}</td>
+                        @if (Auth::user()->id == $workspace->owner_id)
                         <td>...</td>
+                        @endif
                     </tr>
                     @empty
                     <tr>

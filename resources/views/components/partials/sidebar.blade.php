@@ -21,11 +21,20 @@
             <span class="pc-micon"><i class="ti ti-package"></i></span><span class="pc-mtext">Workspace</span>
           </a>
         </li>
+        @if (Auth::user()->role != 'superadmin')
         <li class="pc-item">
-          <a href="../dashboard/index.html" class="pc-link">
+          <a href="{{ route('task') }}" class="pc-link">
             <span class="pc-micon"><i class="ti ti-list"></i></span><span class="pc-mtext">Tugas</span>
           </a>
         </li>
+        @endif
+        @if (Auth::user()->role == 'superadmin')
+        <li class="pc-item">
+          <a href="{{ route('user') }}" class="pc-link">
+            <span class="pc-micon"><i class="ti ti-list"></i></span><span class="pc-mtext">Pengguna</span>
+          </a>
+        </li>
+        @endif
         <li class="pc-item pc-caption">
             <span class="pc-mtext">Workspace</span>
         </li>

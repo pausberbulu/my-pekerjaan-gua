@@ -101,6 +101,7 @@
                 @endforelse
             </tbody>
         </table>
+        <a class="ms-auto btn btn-info" href="{{ route('task') }}">Lihat selengkapnya</a>
     </div>
     @endif
     <div class="modal fade" id="makeWorkspace" tabindex="-1" aria-labelledby="makeWorkspaceLabel" aria-hidden="true">
