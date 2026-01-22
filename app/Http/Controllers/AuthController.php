@@ -40,6 +40,7 @@ class AuthController extends Controller
     public function authenticate(Request $request)
     {
         if (Auth::attempt($request->only('username', 'password'))) {
+            User::where('username', $request->username)->update(['isActive' => true]);
             return redirect()->route('homepage');
         }
         return redirect()->route('login')->with('error', 'Email atau password salah');
@@ -47,6 +48,7 @@ class AuthController extends Controller
 
     public function logout()
     {
+        User::where('username', Auth::user()->username)->update(['isActive' => false]);
         Auth::logout();
         return redirect()->route('login')->with('success', 'Keluar berhasil !');
     }

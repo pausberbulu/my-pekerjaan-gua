@@ -198,7 +198,13 @@
                     @forelse ($workspace->users as $member)
                     <tr>
                         <td>{{ $member->name }}</td>
-                        <td>Aktif</td>
+                        <td>
+                            @if($member->isActive == 1)
+                                <span class="badge bg-success">Aktif</span>
+                            @else
+                                <span class="badge bg-danger">Tidak Aktif</span>
+                            @endif
+                        </td>
                         <td>...</td>
                     </tr>
                     @empty
