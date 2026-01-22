@@ -20,6 +20,7 @@ return new class extends Migration
             $table->enum('role', ['superadmin', 'user'])->default('user');
             $table->string('avatar')->nullable();
             $table->string('username')->unique();
+            $table->boolean('isActive')->default(false);
             $table->rememberToken();
             $table->timestamps();
         });

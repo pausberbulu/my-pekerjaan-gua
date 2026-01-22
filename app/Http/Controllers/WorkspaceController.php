@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Requests\WorkspaceRequest;
+use App\Http\Requests\UpdateWorkspaceRequest;
 
 class WorkspaceController extends Controller
 {
@@ -16,7 +17,6 @@ class WorkspaceController extends Controller
         $workspaces = Workspace::where('owner_id', Auth::user()->id)->get();
         $joinedWorkspace = Auth::user()->members()->get();
 
-        $tasks = Auth::user()->tasks()->get();
         return view('dashboard.workspace.workspace', compact('getWorkspaces','workspaces', 'joinedWorkspace'));
     }
 
@@ -36,6 +36,20 @@ class WorkspaceController extends Controller
         } catch (\Throwable $th) {
             Log::error($th);
             return redirect()->route('workspace')->with('error', 'Workspace gagal dibuat');
+        }
+    }
+
+    public function update(UpdateWorkspaceRequest $request, $id)
+    {
+        $workspace = Workspace::find($id);
+        try {
+            $data = $request->validated();
+            $workspace->update($data);
+
+            return redirect()->back()->with('success', 'Berhasil mengubah workspace');
+        } catch (\Throwable $th) {
+            Log::error($th);
+            return redirect()->back()->with('error', 'Gagal mengubah workspace');
         }
     }
 

@@ -17,6 +17,7 @@ class Workspace extends Model
         'name',
         'code',
         'owner_id',
+        'description',
     ];
 
     protected static function booted()

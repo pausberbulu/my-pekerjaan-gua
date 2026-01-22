@@ -17,6 +17,7 @@ return new class extends Migration
             $table->string('code', 10)->unique();
             $table->unsignedBigInteger('owner_id')->nullable();
             $table->foreign('owner_id')->references('id')->on('users');
+            $table->string('description')->nullable();
             $table->timestamps();
         });
 

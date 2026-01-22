@@ -37,7 +37,9 @@
                     </td>
                 </tr>
                 @empty
-                    
+                <tr>
+                    <td colspan="6" class="text-center">Tidak ada tugas yang ditugaskan</td>
+                </tr>
                 @endforelse
             </tbody>
         </table>

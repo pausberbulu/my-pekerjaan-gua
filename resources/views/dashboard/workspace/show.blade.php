@@ -1,37 +1,31 @@
 @extends('components.layout')
 @section('content')
-    <div class="col-sm-12">
-        <div class="card">
+<div class="col-sm-12">
+    <div class="card">
+            @include('components.partials.alerts')
             <div class="card-header">
                 <div class="d-flex justify-content-between align-items-center">
                     <h3>{{ $workspace->name }}</h3>
-                    <h4 class="text-end"><i class="ti ti-crown"></i> {{ $workspace->owner->name }}</h4>
+                    <h4 class="text-end">
+                        <i class="ti ti-crown"></i> {{ $workspace->owner->name }}
+                        @if (Auth::user()->id == $workspace->owner_id)
+                        <button class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#editWorkspace"><i class="ti ti-edit"></i></button>
+                        @endif
+                    </h4>
                 </div>
                 <h5><i class="ti ti-qrcode"></i> {{ $workspace->code }}</h5>
             </div>
             <div class="card-body">
-                <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Saepe incidunt minus doloribus eos quisquam autem amet soluta unde labore asperiores?</p>
+                <p>{{ $workspace->description ? $workspace->description : 'Belum ada deskripsi' }}</p>
             </div>
         </div>
     </div>
     <div class="col-xl-8 col-md-12">
         <div class="card p-3">
-            @if (session('success'))
-            <div class="alert alert-success d-flex align-items-center gap-2" role="alert">
-                <i class="ti ti-circle-check fs-3"></i>
-                <span class="mt-1">{{ session('success') }}</span>
-            </div>
-            @endif
-            @if (session('error'))
-            <div class="alert alert-danger d-flex align-items-center gap-2" role="alert">
-                <i class="ti ti-x fs-3"></i>
-                <span class="mt-1">{{ session('error') }}</span>
-            </div>
-            @endif
             <div class="d-flex justify-content-between align-items-center">
                 <h3>Tugas</h3>
                 @if (Auth::user()->id == $workspace->owner_id)
-                <button type="button" class="btn btn-info" data-bs-toggle="modal" data-bs-target="#makeTask" href="">Buat Tugas</button>
+                <button type="button" class="btn btn-info" data-bs-toggle="modal" data-bs-target="#makeTask">Buat Tugas</button>
                 @endif
             </div>
             <table class="table table-responsive table-hover">
@@ -253,6 +247,33 @@
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
                         <button type="submit" class="btn btn-primary">Buat</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" id="editWorkspace" tabindex="-1" aria-labelledby="editWorkspaceLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <form action="{{ route('workspace.update', ['id' => $workspace->id]) }}" method="post">
+                    @csrf
+                    <div class="modal-header">
+                        <h1 class="modal-title fs-5" id="makeTaskLabel">Sunting Workspace</h1>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="form-floating mb-3">
+                            <input type="text" class="form-control" id="nameWorkspace" name="name" value="{{ $workspace->name }}" placeholder="Nama Workspace" required />
+                            <label for="nameWorkspace">Nama Workspace</label>
+                        </div>
+                        <div class="form-floating mb-3">
+                            <textarea name="description" id="description" class="form-control" cols="30" rows="10">{{ $workspace->description }}</textarea>
+                            <label for="description">Deskripsi</label>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
+                        <button type="submit" class="btn btn-primary">Simpan</button>
                     </div>
                 </form>
             </div>
