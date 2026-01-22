@@ -56,4 +56,15 @@ class TaskController extends Controller
             return redirect()->back()->with('error', 'Gagal mengubah task');
         }
     }
+
+    public function destroy($id)
+    {
+        try {
+            Task::find($id)->delete();
+            return redirect()->back()->with('success', 'Task berhasil dihapus');
+        } catch (\Throwable $th) {
+            Log::error($th);
+            return redirect()->back()->with('error', 'Task gagal dihapus');
+        }
+    }
 }

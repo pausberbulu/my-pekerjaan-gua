@@ -291,67 +291,136 @@
     </div>
     <div class="modal fade" id="editTask" tabindex="-1" aria-labelledby="editTaskLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content">
-                <form id="editTaskForm" method="post">
-                    @csrf
-                    <div class="modal-header">
-                        <h1 class="modal-title fs-5" id="makeTaskLabel">Sunting Tugas</h1>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                    </div>
-                    <div class="modal-body">
-                        <div class="form-floating mb-3">
-                            <input type="text" class="form-control" id="task_name" name="name" placeholder="Nama Tugas" required />
-                            <label for="task_name">Nama Tugas</label>
-                        </div>
-                        <div class="col-sm-12 mb-3">
-                            <label for="assignFor" class="form-label">Tugaskan</label>
-                            <select name="user_id" id="assignFor" class="form-select">
-                                <option hidden>Pilih anggota...</option>
-                                @forelse ($workspace->users as $member)
-                                    <option value="{{ $member->id }}">{{ $member->name.' - '.$member->username }}</option>
-                                @empty
-                                <option>Tidak ada anggota</option>
-                                @endforelse
-                            </select>
-                        </div>
-                        <div class="col-sm-12 mb-3">
-                            <label for="due_date">Tenggat Waktu</label>
-                            @php
-                                $dateNow = \Carbon\Carbon::now()->format('Y-m-d');
-                            @endphp
-                            <input type="date" id="task_due" name="due_date" min="{{ $dateNow }}" class="form-control" placeholder="Tenggat">
-                        </div>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
-                        <button type="submit" class="btn btn-primary">Simpan</button>
-                    </div>
+            <div class="modal-content py-3">
+            <form id="editTaskForm" method="post">
+                @csrf
+                @method('PUT')
+
+                <div class="modal-header">
+                <h1 class="modal-title fs-5">Sunting Tugas</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+
+                <div class="modal-body">
+                <div class="form-floating mb-3">
+                    <input type="text" class="form-control" id="task_name" name="name" required>
+                    <label for="task_name">Nama Tugas</label>
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label">Tugaskan</label>
+                    <select name="user_id" id="assignFor" class="form-select">
+                    <option hidden>Pilih anggota...</option>
+                    @foreach ($workspace->users as $member)
+                        <option value="{{ $member->id }}">
+                        {{ $member->name }} - {{ $member->username }}
+                        </option>
+                    @endforeach
+                    </select>
+                </div>
+
+                <div class="mb-3">
+                    <label>Tenggat Waktu</label>
+                    <input type="date" id="task_due" name="due_date" class="form-control">
+                </div>
+                </div>
+
+                <div class="modal-footer" id="edit-footer">
+                <button type="button" id="btn-delete-toggle" class="btn btn-danger">
+                    Hapus Tugas
+                </button>
+                <button type="button" id="btn-close" class="btn btn-secondary" data-bs-dismiss="modal">
+                    Tutup
+                </button>
+                <button type="submit" id="btn-save" class="btn btn-primary">
+                    Simpan
+                </button>
+                </div>
+            </form>
+
+            <div class="modal-footer d-none" id="delete-footer">
+                <form id="form-destroy-task" method="post">
+                @csrf
+                @method('DELETE')
+
+                <div class="d-flex gap-3 align-items-center">
+                    <span>Apakah kamu yakin menghapus tugas ini?</span>
+                    <button type="submit" class="btn btn-danger">
+                    Ya, saya yakin
+                    </button>
+                </div>
                 </form>
+            </div>
             </div>
         </div>
     </div>
 
+
     <script>
-    document.addEventListener('DOMContentLoaded', function () {
-    const editModal = document.getElementById('editTask')
+        document.addEventListener('DOMContentLoaded', function () {
+        const editModal = document.getElementById('editTask')
 
-    editModal.addEventListener('show.bs.modal', function (event) {
-        const button = event.relatedTarget
+        const editForm   = document.getElementById('editTaskForm')
+        const deleteForm = document.getElementById('form-destroy-task')
 
-        const id   = button.getAttribute('data-id')
-        const name = button.getAttribute('data-task-name')
-        const due  = button.getAttribute('data-due')
-        const userId = button.getAttribute('data-user-id')
-        const selectUser = editModal.querySelector('#assignFor')
+        const editFooter   = document.getElementById('edit-footer')
+        const deleteFooter = document.getElementById('delete-footer')
 
+        const btnDeleteToggle = document.getElementById('btn-delete-toggle')
+        const btnClose = document.getElementById('btn-close')
+        const btnSave  = document.getElementById('btn-save')
 
-        editModal.querySelector('#task_name').value = name
-        editModal.querySelector('#task_due').value = due
-        selectUser.value = userId
+        let deleteMode = false
 
-        editModal.querySelector('#editTaskForm').action = `/ubah-tugas/${id}`
-    })
-    })
+        editModal.addEventListener('show.bs.modal', function (event) {
+            const button = event.relatedTarget
+
+            const id     = button.getAttribute('data-id')
+            const name   = button.getAttribute('data-task-name')
+            const due    = button.getAttribute('data-due')
+            const userId = button.getAttribute('data-user-id')
+
+            editModal.querySelector('#task_name').value = name
+            editModal.querySelector('#task_due').value  = due
+            editModal.querySelector('#assignFor').value = userId
+
+            editForm.action   = `/ubah-tugas/${id}`
+            deleteForm.action = `/hapus-tugas/${id}`
+
+            resetDeleteMode()
+        })
+
+        btnDeleteToggle.addEventListener('click', function () {
+            deleteMode = !deleteMode
+
+            if (deleteMode) {
+            deleteFooter.classList.remove('d-none')
+
+            btnDeleteToggle.textContent = 'Batal'
+            btnDeleteToggle.classList.replace('btn-danger', 'btn-warning')
+
+            btnClose.disabled = true
+            btnSave.disabled  = true
+            } else {
+            resetDeleteMode()
+            }
+        })
+
+        editModal.addEventListener('hidden.bs.modal', resetDeleteMode)
+
+        function resetDeleteMode () {
+            deleteMode = false
+            deleteFooter.classList.add('d-none')
+
+            btnDeleteToggle.textContent = 'Hapus Tugas'
+            btnDeleteToggle.classList.remove('btn-warning')
+            btnDeleteToggle.classList.add('btn-danger')
+
+            btnClose.disabled = false
+            btnSave.disabled  = false
+        }
+        })
     </script>
+
 
 @endsection
