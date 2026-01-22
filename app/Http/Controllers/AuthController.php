@@ -43,7 +43,7 @@ class AuthController extends Controller
             User::where('username', $request->username)->update(['isActive' => true]);
             return redirect()->route('homepage');
         }
-        return redirect()->route('login')->with('error', 'Email atau password salah');
+        return redirect()->route('login')->with('error', 'Nama pengguna atau password tidak cocok');
     }
 
     public function logout()
