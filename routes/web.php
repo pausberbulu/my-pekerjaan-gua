@@ -29,6 +29,7 @@ Route::middleware('auth')->group(function () {
     
     Route::get('/tugas', [TaskController::class, 'task'])->name('task');
     Route::post('/buat-tugas', [TaskController::class, 'store'])->name('task.store');
+    Route::post('/ubah-tugas/{id}', [TaskController::class, 'update'])->name('task.update');
     Route::post('/ubah-status', [TaskController::class, 'updateStatus'])->name('task.update-status');
 
     Route::middleware('auth')->group(function () {

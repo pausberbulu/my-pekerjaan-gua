@@ -171,7 +171,11 @@
                         @endphp
                         <td>{{ $due_date }}</td>
                         @if (Auth::user()->id == $workspace->owner_id)
-                        <td>...</td>
+                        <td>
+                        @if (Auth::user()->id == $workspace->owner_id)
+                            <button class="btn btn-light" data-bs-toggle="modal" data-id="{{ $task->id }}" data-task-name="{{ $task->name }}" data-due="{{ $task->due_date }}" data-user-id="{{ $task->user_id }}" data-bs-target="#editTask">...</button>
+                        @endif
+                        </td>
                         @endif
                     </tr>
                     @empty
@@ -285,4 +289,69 @@
             </div>
         </div>
     </div>
+    <div class="modal fade" id="editTask" tabindex="-1" aria-labelledby="editTaskLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <form id="editTaskForm" method="post">
+                    @csrf
+                    <div class="modal-header">
+                        <h1 class="modal-title fs-5" id="makeTaskLabel">Sunting Tugas</h1>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="form-floating mb-3">
+                            <input type="text" class="form-control" id="task_name" name="name" placeholder="Nama Tugas" required />
+                            <label for="task_name">Nama Tugas</label>
+                        </div>
+                        <div class="col-sm-12 mb-3">
+                            <label for="assignFor" class="form-label">Tugaskan</label>
+                            <select name="user_id" id="assignFor" class="form-select">
+                                <option hidden>Pilih anggota...</option>
+                                @forelse ($workspace->users as $member)
+                                    <option value="{{ $member->id }}">{{ $member->name.' - '.$member->username }}</option>
+                                @empty
+                                <option>Tidak ada anggota</option>
+                                @endforelse
+                            </select>
+                        </div>
+                        <div class="col-sm-12 mb-3">
+                            <label for="due_date">Tenggat Waktu</label>
+                            @php
+                                $dateNow = \Carbon\Carbon::now()->format('Y-m-d');
+                            @endphp
+                            <input type="date" id="task_due" name="due_date" min="{{ $dateNow }}" class="form-control" placeholder="Tenggat">
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
+                        <button type="submit" class="btn btn-primary">Simpan</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script>
+    document.addEventListener('DOMContentLoaded', function () {
+    const editModal = document.getElementById('editTask')
+
+    editModal.addEventListener('show.bs.modal', function (event) {
+        const button = event.relatedTarget
+
+        const id   = button.getAttribute('data-id')
+        const name = button.getAttribute('data-task-name')
+        const due  = button.getAttribute('data-due')
+        const userId = button.getAttribute('data-user-id')
+        const selectUser = editModal.querySelector('#assignFor')
+
+
+        editModal.querySelector('#task_name').value = name
+        editModal.querySelector('#task_due').value = due
+        selectUser.value = userId
+
+        editModal.querySelector('#editTaskForm').action = `/ubah-tugas/${id}`
+    })
+    })
+    </script>
+
 @endsection

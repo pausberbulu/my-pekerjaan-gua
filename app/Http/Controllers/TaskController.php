@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Task;
 use Illuminate\Http\Request;
 use App\Http\Requests\TaskRequest;
+use App\Http\Requests\UpdateTaskRequest;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Auth;
 
@@ -39,6 +40,20 @@ class TaskController extends Controller
         } catch (\Throwable $th) {
             Log::error($th);
             return redirect()->back()->with('error', 'Status task gagal diubah');
+        }
+    }
+
+    public function update(UpdateTaskRequest $request, $id)
+    {
+        $task = Task::find($id);
+        try {
+            $data = $request->validated();
+            $task->update($data);
+
+            return redirect()->back()->with('success', 'Berhasil mengubah task');
+        } catch (\Throwable $th) {
+            Log::error($th);
+            return redirect()->back()->with('error', 'Gagal mengubah task');
         }
     }
 }
