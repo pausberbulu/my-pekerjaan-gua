@@ -25,34 +25,44 @@
             </button>
         </div>
     </div>
-    <div class="card py-3">
-        Workspace saya
+    <div class="card py-3 container-fluid">
+    <h2 class="mb-4">Workspace saya</h2>
+    
+    <div class="row">
         @forelse ($workspaces as $workspace)
-            <div class="col-xl-4 col-md-6 col-sm-12 border mt-3">
-                <div class="card">
-                    <div class="card-header">
+            <div class="col-xl-4 col-lg-4 col-md-6 col-sm-12 mb-4">
+                <div class="card h-100"> <div class="card-header">
                         <div class="d-flex justify-content-between align-items-center">
-                            <h3>{{ $workspace->name }}</h3>
-                            <h4 class="text-end"><i class="ti ti-crown"></i> {{ $workspace->owner->name }}</h4>
+                            <h3 class="h3 mb-0">{{ $workspace->name }}</h3>
+                            <h4 class="text-muted"><i class="ti ti-crown"></i> {{ $workspace->owner->name }}</h4>
                         </div>
-                        <h5><i class="ti ti-qrcode"></i> {{ $workspace->code }}</h5>
+                        <p class="h3 text-secondary mb-0 mt-2"><i class="ti ti-qrcode"></i> {{ $workspace->code }}</p>
                     </div>
-                <div class="card-body">
-                    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Saepe incidunt minus doloribus eos quisquam autem amet soluta unde labore asperiores?</p>
-                    @if ($workspace->users->count() == 0)
-                        <i>Tidak ada anggota</i>
-                    @else
-                    <i>{{ $workspace->users->count() }} Anggota</i>
-                    @endif
-                    <div class="d-grid mt-3">
-                        <a class="btn btn-info" href="{{ route('workspace.show', ['id' => $workspace->id]) }}">Lihat</a>
+                    <div class="card-body d-flex flex-column">
+                        <p class="card-text text-truncate">
+                            {{ $workspace->description ? $workspace->description : 'Belum ada deskripsi' }}
+                        </p>
+                        
+                        <div class="mt-auto"> <p class="h5 mb-2">
+                                @if ($workspace->users->count() == 0)
+                                    <i class="text-muted">Tidak ada anggota</i>
+                                @else
+                                    <i>{{ $workspace->users->count() }} Anggota</i>
+                                @endif
+                            </p>
+                            <div class="d-grid">
+                                <a class="btn btn-info" href="{{ route('workspace.show', ['id' => $workspace->id]) }}">Lihat</a>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
-        @empty
-        <span class="text-center my-3">Tidak ada workspace</span>
+            @empty
+            <div class="col-12 text-center my-3">
+                <span class="text-muted">Tidak ada workspace</span>
+            </div>
         @endforelse
+        </div>
     </div>
     <div class="card py-3">
         Workspace
